@@ -7,7 +7,7 @@ class User < ApplicationRecord
   def self.find_by_credentials(username, password)
     user = User.find_by(username: username)
     return nil unless user && user.valid_password?(password)
-    user 
+    user
   end
 
   def password=(password)
@@ -27,6 +27,12 @@ class User < ApplicationRecord
     self.session_token = SecureRandom.urlsafe_base64(16)
     self.save
     self.session_token
-
   end
+
+  has_many(
+    :moderated_subs,
+    primary_key: :id,
+    foreign_key: :moderator_id,
+    class_name: "Sub"
+  )
 end

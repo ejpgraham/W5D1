@@ -10,10 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327141825) do
+ActiveRecord::Schema.define(version: 20170327193718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "content",           null: false
+    t.integer  "author_id",         null: false
+    t.integer  "post_id",           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "parent_comment_id"
+    t.index ["author_id"], name: "index_comments_on_author_id", using: :btree
+    t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
+  end
+
+  create_table "post_subs", force: :cascade do |t|
+    t.integer  "post_id",    null: false
+    t.integer  "sub_id",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_subs_on_post_id", using: :btree
+    t.index ["sub_id"], name: "index_post_subs_on_sub_id", using: :btree
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "title",      null: false
+    t.string   "url"
+    t.string   "content"
+    t.integer  "author_id",  null: false
+    t.index ["author_id"], name: "index_posts_on_author_id", using: :btree
+  end
+
+  create_table "subs", force: :cascade do |t|
+    t.string   "title",        null: false
+    t.string   "description",  null: false
+    t.integer  "moderator_id", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["moderator_id"], name: "index_subs_on_moderator_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false

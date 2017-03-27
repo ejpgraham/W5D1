@@ -1,0 +1,17 @@
+<p><%= @comment.content %></p>
+<p>Authored by: <%= @comment.author.username %></p>
+<form class="" action="<%= comments_url %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="comment[parent_comment_id]" value="<%= @comment.id %>">
+  <input type="hidden" name="comment[post_id]" value="<%= @comment.post_id %>">
+  <label for="">Comment
+    <input type="text" name="comment[content]" value="">
+  </label>
+  <br>
+
+  <input type="submit" name="" value="Add child comment">
+</form>
+
+<%= render 'comment', comment: @comment %>
+
+<a href="<%= subs_url %>">All subs</a>

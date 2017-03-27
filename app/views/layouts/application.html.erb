@@ -7,7 +7,24 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  <% if flash[:errors] %>
+  <ul>
+    <% flash[:errors].each do |error| %>
+    <li><%= error %></li>
+    <% end %>
+  </ul>
+  <% end %>
+  <% if signed_in? %>
+    <p>Hello, <%= current_user.username %>!</p>
+    <form class="" action="<%= session_url %>" method="post">
+      <%= auth_token %>
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" name="" value="Log Out">
+    </form>
+  <% else %>
+    <a href="<%= new_user_url %>">Create New User</a>
+    <a href="<%= new_session_url %>">Log In</a>
+  <% end %>
   <body>
     <%= yield %>
   </body>

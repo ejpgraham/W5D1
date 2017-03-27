@@ -1,0 +1,25 @@
+<h1><%= @post.title %></h1>
+<p>Author: <%= @post.author.username %></p>
+<p>URL: <%= @post.url %></p>
+<p>Content: <%= @post.content %></p>
+
+<p>Subs</p>
+<ul>
+  <% @post.subs.each do |sub| %>
+  <li><a href="<%= sub_url(sub) %>"><%= sub.title %></a></li>
+  <% end %>
+</ul>
+<a href="<%= edit_post_url(@post) %>">Edit Post</a>
+
+
+<p>Parent Comments</p>
+
+  <% @all_comments[nil].each do |comment| %>
+
+  <%= render "comments/comment", comment: comment  %>
+
+  <% end %>
+
+
+
+<a href="<%= new_post_comment_url(@post) %>">New Comment</a>
